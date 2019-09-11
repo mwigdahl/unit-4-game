@@ -1,50 +1,91 @@
+// Setting Global Variables
 var randomNumber = Math.floor(Math.random() * (120 - 19) + 1) + 19;
 var crystalArray = [];
+var crystalNumber = 0;
+var counter = 0;
 
 var wins = 0;
 var losses = 0;
-var counter = 0;
 
-// for (var i = 0, i < crystalArray.length; i++) {
-//     var crystalArray = [];
-// }
+//Select a random number
 
-var crystalValues = function(){
-    return Math.floor(Math.random() * 10);
-}
-var crystalArray = Array(4).fill(0).map(crystalValues);
+function selectNumber() {
 
-console.log("crystalArray", crystalArray);
+    var crystalValues = function () {
+        return Math.floor(Math.random() * 10);
+    }
 
+    var crystalArray = Array(4).fill(0).map(crystalValues);
 
-for (var i = 0; i < crystalArray.length; i++) {
-    var crystalImage =  $('<img>');
-    crystalImage.addClass('crystal-image');
-    crystalImage.attr("src", 'assets/images/crystal-' + i + '.png');
-    //console.log('crystalArray ', crystalArray);
-    crystalImage.attr('data-crystalvalue', crystalArray[i]);
-    $('#crystals').append(crystalImage);
-}
+    console.log("crystalArray", crystalArray);
 
+    // Create for loop to create each image and add values & attributes
+    for (var i = 0; i < crystalArray.length; i++) {
 
-function startGame() {
-    $('#random-number').append(randomNumber);
-    $('.crystal-image').on('click', function () {
+        var crystalImage = $('<img>');
 
-        var crystalNumber = $(this).attr("data-crystalvalue");
-        console.log("crystalNumber ", crystalNumber);
-    });
+        crystalImage.addClass('crystal-image');
+        crystalImage.attr("src", 'assets/images/crystal-' + i + '.png');
+        crystalImage.attr('data-crystalvalue', crystalArray[i]);
 
-    $('#counter').html('');
-
-    if (crystalNumber === randomNumber) {
-        wins++;
-    } else if {
-        (crystalNumber < randomNumber) {
-            counter += crystalNumber;
-        }
+        $('#crystals').append(crystalImage);
     }
 
 }
 
+
+function startGame() {
+
+    selectNumber();
+
+    $('#random-number').html(randomNumber);
+
+    $('.crystal-image').on('click', function () {
+
+        var crystalNumber = $(this).attr("data-crystalvalue");
+        console.log("crystalNumber ", crystalNumber);
+
+        if (counter === randomNumber) {
+
+            winGame();
+            resetGame();
+
+        } else if (counter < randomNumber) {
+
+            crystalNumber = parseInt(crystalNumber);
+            counter += crystalNumber;
+
+            console.log("counter ", counter);
+            $('#counter').html('Your current score: ' + counter);
+
+        } else {
+            losses++;
+            $('#losses').html('Losses: ' + losses);
+            loseGame();
+            resetGame();
+        };
+
+
+    });
+
+}
+
 startGame();
+
+function resetGame() {
+    counter = 0;
+    $('#crystals').empty();
+    $('#counter').html('Your current score: ' + counter);
+    startGame();
+}
+
+function winGame() {
+    alert("You Win the Game!");
+    wins++;
+    $('#wins').html('Wins: ' + wins);
+}
+
+function loseGame() {
+    alert("You Lost the Game!  Try again.");
+}
+
