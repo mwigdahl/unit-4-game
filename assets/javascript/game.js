@@ -24,10 +24,9 @@ function selectNumber() {
 
         var crystalImage = $('<img>');
 
-        crystalImage.addClass('crystal-image');
+        crystalImage.addClass('crystal-image p-2');
         crystalImage.attr("src", 'assets/images/crystal-' + i + '.png');
         crystalImage.attr('data-crystalvalue', crystalArray[i]);
-
         $('#crystals').append(crystalImage);
     }
 
@@ -45,12 +44,7 @@ function startGame() {
         var crystalNumber = $(this).attr("data-crystalvalue");
         console.log("crystalNumber ", crystalNumber);
 
-        if (counter === randomNumber) {
-
-            winGame();
-            resetGame();
-
-        } else if (counter < randomNumber) {
+        if (counter < randomNumber) {
 
             crystalNumber = parseInt(crystalNumber);
             counter += crystalNumber;
@@ -58,7 +52,14 @@ function startGame() {
             console.log("counter ", counter);
             $('#counter').html('Your current score: ' + counter);
 
-        } else {
+        }
+
+        if (counter === randomNumber) {
+
+            winGame();
+            resetGame();
+
+        }  else if (counter > randomNumber) {
             losses++;
             $('#losses').html('Losses: ' + losses);
             loseGame();
@@ -74,6 +75,7 @@ startGame();
 
 function resetGame() {
     counter = 0;
+    randomNumber = Math.floor(Math.random() * (120 - 19) + 1) + 19;
     $('#crystals').empty();
     $('#counter').html('Your current score: ' + counter);
     startGame();

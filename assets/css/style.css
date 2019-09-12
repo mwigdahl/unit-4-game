@@ -1,3 +1,17 @@
+body {
+    font-size:2em;
+}
+
+img:hover {
+    border: 2px solid red;
+}
+
 .crystal-image {
     width:25%;
+}
+
+h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 2em;
+    letter-spacing: .095em;
 }
